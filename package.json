@@ -1,0 +1,17 @@
+{
+  "name": "meridian-checkpoint",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@cloudflare/workers-types": "^4.20260426.1",
+    "@langchain/langgraph-checkpoint": "^1.0.1",
+    "cloudflare": "^5.2.0"
+  }
+}
