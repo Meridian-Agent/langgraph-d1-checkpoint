@@ -63,6 +63,7 @@ Supported operations:
 
 ## Notes
 
+- 0.0.4 — fix D1_TYPE_ERROR on first checkpoint of a thread (parent_checkpoint_id) and on putWrites with empty checkpoint_ns; coerce undefined to null/'' before bind().
 - 0.0.3 — fix setup() crashing on Cloudflare D1 because db.exec() splits on newlines; switched to batch() with prepare().
 - D1 is provided by Cloudflare through `env.DB`; there is no connection string helper.
 - Setup is async and runs lazily before saver operations.

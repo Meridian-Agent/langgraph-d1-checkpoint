@@ -414,7 +414,7 @@ export class CloudflareD1Saver extends BaseCheckpointSaver {
 
     const thread_id = config.configurable?.thread_id;
     const checkpoint_ns = config.configurable?.checkpoint_ns ?? "";
-    const parent_checkpoint_id = config.configurable?.checkpoint_id;
+    const parent_checkpoint_id = config.configurable?.checkpoint_id ?? null;
 
     if (!thread_id) {
       throw new Error(
@@ -480,6 +480,10 @@ export class CloudflareD1Saver extends BaseCheckpointSaver {
       throw new Error("Missing checkpoint_id field in config.configurable.");
     }
 
+    const thread_id = config.configurable.thread_id;
+    const checkpoint_ns = config.configurable.checkpoint_ns ?? "";
+    const checkpoint_id = config.configurable.checkpoint_id;
+
     const sql = `
       INSERT OR REPLACE INTO writes 
       (thread_id, checkpoint_ns, checkpoint_id, task_id, idx, channel, type, value) 
@@ -490,9 +494,9 @@ export class CloudflareD1Saver extends BaseCheckpointSaver {
       writes.map(async (write, idx) => {
         const [type, serializedWrite] = await this.serde.dumpsTyped(write[1]);
         return [
-          config.configurable?.thread_id,
-          config.configurable?.checkpoint_ns,
-          config.configurable?.checkpoint_id,
+          thread_id,
+          checkpoint_ns,
+          checkpoint_id,
           taskId,
           idx,
           write[0],
