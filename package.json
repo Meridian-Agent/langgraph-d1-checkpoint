@@ -1,6 +1,6 @@
 {
   "name": "@meridian-agent/langgraph-checkpoint-cloudflare-d1",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "LangGraph.js checkpoint saver for Cloudflare D1",
   "type": "module",
   "main": "./dist/index.js",

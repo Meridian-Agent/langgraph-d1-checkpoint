@@ -63,6 +63,7 @@ Supported operations:
 
 ## Notes
 
+- 0.0.3 — fix setup() crashing on Cloudflare D1 because db.exec() splits on newlines; switched to batch() with prepare().
 - D1 is provided by Cloudflare through `env.DB`; there is no connection string helper.
 - Setup is async and runs lazily before saver operations.
 - Writes use `db.batch()` for multi-statement operations.

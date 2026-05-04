@@ -129,8 +129,8 @@ export class CloudflareD1Saver extends BaseCheckpointSaver {
       return;
     }
 
-    await this.db.exec(`
-CREATE TABLE IF NOT EXISTS checkpoints (
+    await this.db.batch([
+      this.db.prepare(`CREATE TABLE IF NOT EXISTS checkpoints (
   thread_id TEXT NOT NULL,
   checkpoint_ns TEXT NOT NULL DEFAULT '',
   checkpoint_id TEXT NOT NULL,
@@ -139,9 +139,8 @@ CREATE TABLE IF NOT EXISTS checkpoints (
   checkpoint BLOB,
   metadata BLOB,
   PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id)
-);`);
-    await this.db.exec(`
-CREATE TABLE IF NOT EXISTS writes (
+)`),
+      this.db.prepare(`CREATE TABLE IF NOT EXISTS writes (
   thread_id TEXT NOT NULL,
   checkpoint_ns TEXT NOT NULL DEFAULT '',
   checkpoint_id TEXT NOT NULL,
@@ -151,7 +150,8 @@ CREATE TABLE IF NOT EXISTS writes (
   type TEXT,
   value BLOB,
   PRIMARY KEY (thread_id, checkpoint_ns, checkpoint_id, task_id, idx)
-);`);
+)`),
+    ]);
 
     this.isSetup = true;
   }
